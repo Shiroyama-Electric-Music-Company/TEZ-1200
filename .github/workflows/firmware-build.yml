@@ -22,17 +22,28 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Cache ESP toolchain
+        uses: actions/cache@v4
+        id: cache-esp
+        with:
+          path: |
+            ~/.rustup/toolchains/esp
+            ~/export-esp.sh
+            ~/.espup
+          key: espup-esp32s3-${{ runner.os }}-v1
+
       - name: Install espup and Xtensa toolchain
+        if: steps.cache-esp.outputs.cache-hit != 'true'
         run: |
           curl -L https://github.com/esp-rs/espup/releases/latest/download/espup-x86_64-unknown-linux-gnu -o espup
           chmod +x espup
           ./espup install --targets esp32s3
-          echo "$HOME/.rustup/toolchains/esp/bin" >> $GITHUB_PATH
-          echo "$HOME/export-esp.sh" >> $GITHUB_ENV
 
-      - name: Source ESP environment
+      - name: Set up ESP environment
         run: |
+          echo "$HOME/.rustup/toolchains/esp/bin" >> $GITHUB_PATH
           . $HOME/export-esp.sh
+          env | grep -E '^(IDF_|ESP_|LIBCLANG_)' >> $GITHUB_ENV || true
 
       - name: Format check
         working-directory: firmware
@@ -40,12 +51,8 @@ jobs:
 
       - name: Clippy
         working-directory: firmware
-        run: |
-          . $HOME/export-esp.sh
-          cargo clippy -- -D warnings
+        run: cargo clippy -- -D warnings
 
       - name: Build
         working-directory: firmware
-        run: |
-          . $HOME/export-esp.sh
-          cargo build
+        run: cargo build
