@@ -1,1 +1,19 @@
+# Rust
 /target
+firmware/target
+
+# Node.js
+node_modules/
+configurator/dist/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+
+# ESP build artifacts
+build/
+sdkconfig
+sdkconfig.old

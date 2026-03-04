@@ -1,0 +1,15 @@
+{
+  "name": "tez-1200-configurator",
+  "version": "0.1.0",
+  "description": "Configuration tool for the TEZ-1200 Eurorack performance controller",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "lint": "tsc --noEmit",
+    "dev": "tsc --watch"
+  },
+  "devDependencies": {
+    "typescript": "^5.4"
+  }
+}

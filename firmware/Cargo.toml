@@ -1,0 +1,15 @@
+[package]
+name = "tez-1200-firmware"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+esp-hal = { version = "~1.0", features = ["esp32s3", "rt"] }
+esp-rtos = { version = "0.2.0", features = ["esp32s3", "embassy"] }
+embassy-executor = "0.9.1"
+embassy-time = "0.5.0"
+embassy-sync = "~0.7"
+static_cell = "2.1.1"
+esp-backtrace = { version = "0.18.1", features = ["esp32s3", "panic-handler", "exception-handler", "println"] }
+esp-println = { version = "0.16.1", features = ["esp32s3", "log"] }
+log = "0.4"

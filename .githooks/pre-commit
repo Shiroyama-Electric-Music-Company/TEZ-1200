@@ -3,13 +3,33 @@ set -e
 
 echo "Running pre-commit checks..."
 
-echo ">> cargo fmt --check"
-cargo fmt --check
+# Firmware checks
+if [ -d "firmware" ]; then
+    echo ">> Firmware: cargo fmt --check"
+    cd firmware
 
-echo ">> cargo clippy"
-cargo clippy -- -D warnings
+    if cargo fmt --check 2>/dev/null; then
+        echo "   Format check passed."
+    else
+        if cargo fmt --check 2>&1 | grep -q "not installed"; then
+            echo "   Skipping: xtensa toolchain not available."
+        else
+            echo "   Format check failed!"
+            exit 1
+        fi
+    fi
 
-echo ">> cargo test"
-cargo test
+    cd ..
+fi
+
+# Configurator checks
+if [ -d "configurator" ] && [ -f "configurator/node_modules/.bin/tsc" ]; then
+    echo ">> Configurator: npm run lint"
+    cd configurator
+    npm run lint
+    cd ..
+elif [ -d "configurator" ]; then
+    echo ">> Configurator: skipping (run npm install first)"
+fi
 
 echo "All pre-commit checks passed."

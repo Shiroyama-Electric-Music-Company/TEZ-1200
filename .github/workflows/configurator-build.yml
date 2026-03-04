@@ -1,0 +1,37 @@
+name: Configurator Build
+
+on:
+  pull_request:
+    branches: ["*"]
+    paths:
+      - "configurator/**"
+      - ".github/workflows/configurator-build.yml"
+  push:
+    branches: [develop, main]
+    paths:
+      - "configurator/**"
+      - ".github/workflows/configurator-build.yml"
+
+jobs:
+  check:
+    name: Configurator Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        working-directory: configurator
+        run: npm install
+
+      - name: Lint
+        working-directory: configurator
+        run: npm run lint
+
+      - name: Build
+        working-directory: configurator
+        run: npm run build

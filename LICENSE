@@ -1,0 +1,12 @@
+This project uses a dual-license model:
+
+- firmware/ and configurator/ are licensed under the GNU General Public License
+  v3.0 (GPL-3.0). See LICENSE-GPL-3.0 for the full text.
+
+- hardware/ is licensed under the CERN Open Hardware Licence Version 2 -
+  Strongly Reciprocal (CERN-OHL-S-2.0). See LICENSE-CERN-OHL-S-2.0 for the
+  full text.
+
+- docs/ are licensed under GPL-3.0.
+
+Copyright (c) 2026 Shiroyama Electric Music Company
